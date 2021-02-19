@@ -1,0 +1,17 @@
+POST http://localhost:8000/api/signUp
+Content-Type: application/json
+
+{
+    "email": "appaji12368@gmail.com",
+    "password": "testing"
+}
+
+###
+
+POST http://localhost:8000/api/signIn
+Content-Type: application/json
+
+{
+    "email": "appaji12368@gmail.com",
+    "password": "testin"
+}

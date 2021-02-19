@@ -15,6 +15,7 @@ import {
 import FacebookIcon from "../../icons/Facebook";
 import GoogleIcon from "../../icons/Google";
 import Page from "../../components/Page";
+import { SignIn } from "../../utils/auth";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,9 +53,7 @@ const LoginView = () => {
                 .max(255)
                 .required("Password is required"),
             })}
-            onSubmit={() => {
-              navigate("/app/dashboard", { replace: true });
-            }}
+            onSubmit={SignIn}
           >
             {({
               errors,
@@ -78,7 +77,7 @@ const LoginView = () => {
                     Sign in on the internal platform
                   </Typography>
                 </Box>
-                <Grid container spacing={3}>
+                {/* <Grid container spacing={3}>
                   <Grid item xs={12} md={6}>
                     <Button
                       color="primary"
@@ -111,7 +110,7 @@ const LoginView = () => {
                   >
                     or login with email address
                   </Typography>
-                </Box>
+                </Box> */}
                 <TextField
                   error={Boolean(touched.email && errors.email)}
                   fullWidth
