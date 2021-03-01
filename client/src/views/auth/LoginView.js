@@ -41,9 +41,6 @@ const LoginView = () => {
     setSubmitting(false);
   };
 
-  // React.useEffect(() => {
-  //   if (isAuthenticated) navigate("/app/dashboard");
-  // });
 
   return (
     <Page className={classes.root} title="Login">

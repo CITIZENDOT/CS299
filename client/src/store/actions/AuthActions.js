@@ -37,7 +37,7 @@ export const signUp = (email, password) => {
   return (dispatch) => {
     dispatch(authLoader());
     axios
-      .post(`${process.env.REACT_APP_SERVER_URL}/api/signIn`, {
+      .post(`${process.env.REACT_APP_SERVER_URL}/api/signUp`, {
         email: email,
         password: password,
       })
@@ -46,6 +46,7 @@ export const signUp = (email, password) => {
           type: actionTypes.AUTH,
           alertMessage: res.data.message,
           alertType: "success",
+          alertFor: "SIGNUP",
         });
       })
       .catch((err) => {
@@ -53,7 +54,7 @@ export const signUp = (email, password) => {
           type: actionTypes.AUTH,
           isAuthenticated: false,
           alertMessage: err.response.data.message,
-          alertType: "danger",
+          alertType: "error",
           alertFor: "SIGNUP",
         });
       });

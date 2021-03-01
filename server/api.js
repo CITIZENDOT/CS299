@@ -58,6 +58,7 @@ router.post("/signUp", (req, res) => {
   }
   User.findOne({ email: email }, async (err, user) => {
     if (err) {
+      console.log(err);
       return res.status(500).json({
         message: "Internal Server Error",
       });

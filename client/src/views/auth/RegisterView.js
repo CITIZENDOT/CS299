@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import Page from "../../components/Page";
 import { Alert, AlertTitle } from "@material-ui/lab";
-import { signIn } from "../../store/actions/AuthActions";
+import { signUp } from "../../store/actions/AuthActions";
 import { useSelector, useDispatch } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
@@ -29,13 +29,11 @@ const useStyles = makeStyles((theme) => ({
 
 const RegisterView = () => {
   const classes = useStyles();
-  const navigate = useNavigate();
   const authData = useSelector((state) => state.authData);
-  const isAuthenticated = useSelector((state) => state.isAuthenticated);
   const dispatch = useDispatch();
 
   const handleRegister = (email, password, setSubmitting) => {
-    dispatch(signIn(email, password));
+    dispatch(signUp(email, password));
     setSubmitting(false);
   };
 
@@ -132,25 +130,6 @@ const RegisterView = () => {
                   value={values.password}
                   variant="outlined"
                 />
-                {/* <Box alignItems="center" display="flex" ml={-1}>
-                  <Checkbox
-                    checked={values.policy}
-                    name="policy"
-                    onChange={handleChange}
-                  />
-                  <Typography color="textSecondary" variant="body1">
-                    I have read the{" "}
-                    <Link
-                      color="primary"
-                      component={RouterLink}
-                      to="#"
-                      underline="always"
-                      variant="h6"
-                    >
-                      Terms and Conditions
-                    </Link>
-                  </Typography>
-                </Box> */}
                 <Box my={2}>
                   <Button
                     color="primary"
