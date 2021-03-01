@@ -31,9 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginView = () => {
   const classes = useStyles();
-  const navigate = useNavigate();
   const authData = useSelector((state) => state.authData);
-  const isAuthenticated = useSelector((state) => state.isAuthenticated);
   const dispatch = useDispatch();
 
   const handleLogin = (email, password, setSubmitting) => {
