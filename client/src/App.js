@@ -32,6 +32,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     dispatch(checkAuth());
   }, []);
 
