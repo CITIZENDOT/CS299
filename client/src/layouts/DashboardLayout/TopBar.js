@@ -29,7 +29,7 @@ const TopBar = ({ className, onMobileNavOpen, ...rest }) => {
   const [notifications] = useState([]);
 
   return (
-    <AppBar className={clsx(classes.root, className)} elevation={0} {...rest}>
+    <AppBar className={clsx(classes.root, className)} elevation={5} {...rest}>
       <Toolbar>
         <RouterLink to="/">
           <Logo />

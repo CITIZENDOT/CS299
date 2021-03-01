@@ -6,16 +6,16 @@ import {
   Box,
   Button,
   Container,
-  Grid,
   Link,
   TextField,
   Typography,
   makeStyles,
 } from "@material-ui/core";
-import FacebookIcon from "../../icons/Facebook";
-import GoogleIcon from "../../icons/Google";
+import { Alert, AlertTitle } from "@material-ui/lab";
 import Page from "../../components/Page";
-import { SignIn } from "../../utils/auth";
+import { signIn } from "../../store/actions/AuthActions";
+import { useSelector, useDispatch } from "react-redux";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,11 +24,26 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3),
   },
+  textCenter: {
+    textAlign: "center",
+  },
 }));
 
 const LoginView = () => {
   const classes = useStyles();
   const navigate = useNavigate();
+  const authData = useSelector((state) => state.authData);
+  const isAuthenticated = useSelector((state) => state.isAuthenticated);
+  const dispatch = useDispatch();
+
+  const handleLogin = (email, password, setSubmitting) => {
+    dispatch(signIn(email, password));
+    setSubmitting(false);
+  };
+
+  // React.useEffect(() => {
+  //   if (isAuthenticated) navigate("/app/dashboard");
+  // });
 
   return (
     <Page className={classes.root} title="Login">
@@ -53,7 +68,9 @@ const LoginView = () => {
                 .max(255)
                 .required("Password is required"),
             })}
-            onSubmit={SignIn}
+            onSubmit={(values, { setSubmitting }) =>
+              handleLogin(values.email, values.password, setSubmitting)
+            }
           >
             {({
               errors,
@@ -65,7 +82,7 @@ const LoginView = () => {
               values,
             }) => (
               <form onSubmit={handleSubmit}>
-                <Box mb={3}>
+                <Box mb={3} className={classes.textCenter}>
                   <Typography color="textPrimary" variant="h2">
                     Sign in
                   </Typography>
@@ -76,41 +93,24 @@ const LoginView = () => {
                   >
                     Sign in on the internal platform
                   </Typography>
+                  {authData.isAuthLoading && (
+                    <CircularProgress
+                      color="secondary"
+                      style={{ marginTop: "5px" }}
+                    />
+                  )}
+                  {authData.alertType &&
+                    authData.alertMessage &&
+                    authData.alertFor === "SIGNIN" && (
+                      <Alert
+                        severity={authData.alertType}
+                        style={{ textAlign: "left" }}
+                      >
+                        <AlertTitle>Error</AlertTitle>
+                        {authData.alertMessage}
+                      </Alert>
+                    )}
                 </Box>
-                {/* <Grid container spacing={3}>
-                  <Grid item xs={12} md={6}>
-                    <Button
-                      color="primary"
-                      fullWidth
-                      startIcon={<FacebookIcon />}
-                      onClick={handleSubmit}
-                      size="large"
-                      variant="contained"
-                    >
-                      Login with Facebook
-                    </Button>
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Button
-                      fullWidth
-                      startIcon={<GoogleIcon />}
-                      onClick={handleSubmit}
-                      size="large"
-                      variant="contained"
-                    >
-                      Login with Google
-                    </Button>
-                  </Grid>
-                </Grid>
-                <Box mt={3} mb={1}>
-                  <Typography
-                    align="center"
-                    color="textSecondary"
-                    variant="body1"
-                  >
-                    or login with email address
-                  </Typography>
-                </Box> */}
                 <TextField
                   error={Boolean(touched.email && errors.email)}
                   fullWidth

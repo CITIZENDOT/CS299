@@ -13,7 +13,10 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import Page from "../../components/Page";
-import { SignUp } from "../../utils/auth";
+import { Alert, AlertTitle } from "@material-ui/lab";
+import { signIn } from "../../store/actions/AuthActions";
+import { useSelector, useDispatch } from "react-redux";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,6 +30,14 @@ const useStyles = makeStyles((theme) => ({
 const RegisterView = () => {
   const classes = useStyles();
   const navigate = useNavigate();
+  const authData = useSelector((state) => state.authData);
+  const isAuthenticated = useSelector((state) => state.isAuthenticated);
+  const dispatch = useDispatch();
+
+  const handleRegister = (email, password, setSubmitting) => {
+    dispatch(signIn(email, password));
+    setSubmitting(false);
+  };
 
   return (
     <Page className={classes.root} title="Register">
@@ -51,7 +62,9 @@ const RegisterView = () => {
                 .max(255)
                 .required("password is required"),
             })}
-            onSubmit={SignUp}
+            onSubmit={(values, { setSubmitting }) =>
+              handleRegister(values.email, values.password, setSubmitting)
+            }
           >
             {({
               errors,
@@ -74,6 +87,23 @@ const RegisterView = () => {
                   >
                     Use your email to create new account
                   </Typography>
+                  {authData.isAuthLoading && (
+                    <CircularProgress
+                      color="secondary"
+                      style={{ marginTop: "5px" }}
+                    />
+                  )}
+                  {authData.alertType &&
+                    authData.alertMessage &&
+                    authData.alertFor === "SIGNUP" && (
+                      <Alert
+                        severity={authData.alertType}
+                        style={{ textAlign: "left" }}
+                      >
+                        <AlertTitle>Error</AlertTitle>
+                        {authData.alertMessage}
+                      </Alert>
+                    )}
                 </Box>
 
                 <TextField

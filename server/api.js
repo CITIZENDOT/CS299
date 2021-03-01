@@ -92,4 +92,40 @@ router.post("/signUp", (req, res) => {
   return;
 });
 
+router.post("/checkAuth", (req, res) => {
+  const { accessToken } = req.body;
+  jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) {
+      return res.status(401).json({
+        message: "Login Session Expired",
+      });
+    } else {
+      return res.status(200).json({
+        email: user.email,
+        _id: user._id,
+      });
+    }
+  });
+  return;
+});
+
+router.post("/logout", (req, res) => {
+  const { accessToken } = req.body;
+  jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({
+        message: "User not logged in",
+      });
+    }
+    User.findById(user._id, (err, user) => {
+      user.accessToken = null;
+      user.save();
+    });
+    return res.status(200).json({
+      message: "Logged Out Successfully.",
+      user: user,
+    });
+  });
+});
+
 module.exports = router;

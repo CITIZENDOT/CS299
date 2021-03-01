@@ -23,6 +23,8 @@ import {
   Users as UsersIcon,
 } from "react-feather";
 import NavItem from "./NavItem";
+import { useDispatch } from "react-redux";
+import { signOut } from "../../../store/actions/AuthActions";
 
 const user = {
   avatar: "/static/images/avatars/avatar_6.png",
@@ -41,11 +43,11 @@ const items = [
     icon: UsersIcon,
     title: "Customers",
   },
-  {
-    href: "/app/products",
-    icon: ShoppingBagIcon,
-    title: "Products",
-  },
+  // {
+  //   href: "/app/products",
+  //   icon: ShoppingBagIcon,
+  //   title: "Products",
+  // },
   {
     href: "/app/account",
     icon: UserIcon,
@@ -55,21 +57,6 @@ const items = [
     href: "/app/settings",
     icon: SettingsIcon,
     title: "Settings",
-  },
-  {
-    href: "/login",
-    icon: LockIcon,
-    title: "Login",
-  },
-  {
-    href: "/register",
-    icon: UserPlusIcon,
-    title: "Register",
-  },
-  {
-    href: "/404",
-    icon: AlertCircleIcon,
-    title: "Error",
   },
 ];
 
@@ -92,6 +79,12 @@ const useStyles = makeStyles(() => ({
 const NavBar = ({ onMobileClose, openMobile }) => {
   const classes = useStyles();
   const location = useLocation();
+
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(signOut());
+  };
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
@@ -127,42 +120,14 @@ const NavBar = ({ onMobileClose, openMobile }) => {
               icon={item.icon}
             />
           ))}
+          <NavItem
+            key="Logout"
+            title="Logout"
+            icon={LockIcon}
+            onClick={handleLogout}
+          />
         </List>
       </Box>
-      <Box flexGrow={1} />
-      {/* <Box
-        p={2}
-        m={2}
-        bgcolor="background.dark"
-      >
-        <Typography
-          align="center"
-          gutterBottom
-          variant="h4"
-        >
-          Need more?
-        </Typography>
-        <Typography
-          align="center"
-          variant="body2"
-        >
-          Upgrade to PRO version and access 20 more screens
-        </Typography>
-        <Box
-          display="flex"
-          justifyContent="center"
-          mt={2}
-        >
-          <Button
-            color="primary"
-            component="a"
-            href="https://react-material-kit.devias.io"
-            variant="contained"
-          >
-            See PRO version
-          </Button>
-        </Box>
-      </Box> */}
     </Box>
   );
 
