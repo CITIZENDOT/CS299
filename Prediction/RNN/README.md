@@ -24,4 +24,4 @@
 
 ### Prediction chart
 
-![ARIMA Prediction Chart](../common/images/RNN.png)
+![RNN Prediction Chart](../common/images/RNN.png)

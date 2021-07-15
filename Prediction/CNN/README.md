@@ -24,4 +24,4 @@
 
 ### Prediction chart
 
-![ARIMA Prediction Chart](../common/images/CNN.png)
+![CNN Prediction Chart](../common/images/CNN.png)
